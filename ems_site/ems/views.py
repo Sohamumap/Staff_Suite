@@ -1,0 +1,14 @@
+from django.http import Http404
+from django.shortcuts import render
+from .models import Employee
+
+# Create your views here.
+def home(request):
+    employess = Employee.objects.all()
+    return render(request, 'ems/home.html', {'employees': employess})
+def employee_detail(request, employee_id):
+    try:
+        employee = Employee.objects.get(id=employee_id)
+    except Employee.DoesNotExist:
+        raise Http404('Employee not found')
+    return render(request, 'ems/employee_detail.html', {'employee': employee})
